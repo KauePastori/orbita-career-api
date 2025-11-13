@@ -1,0 +1,105 @@
+<mxfile host="app.diagrams.net" modified="2025-11-13T00:00:00Z" agent="ORBITA-CareerApi" version="22.0.0">
+  <diagram id="orbita-flow-pro" name="Fluxo ORBITA Career API - Profissional">
+    <mxGraphModel dx="1280" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Swimlane Back-end -->
+        <mxCell id="lane-backend" value="Back-end ORBITA (ASP.NET Core + EF Core)" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;rounded=1;fillColor=#f5f5f5;strokeColor=#b0b0b0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="60" width="940" height="460" as="geometry"/>
+        </mxCell>
+
+        <!-- Cliente -->
+        <mxCell id="client" value="Cliente&#xa;Swagger / Postman / Front-end" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="220" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Testes (Postman) -->
+        <mxCell id="postman" value="Collection Postman&#xa;Testes Integrados (CRUD + fluxo completo)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="310" width="260" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ASP.NET Core Pipeline -->
+        <mxCell id="pipeline" value="Pipeline ASP.NET Core&#xa;Kestrel + Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#64b5f6;" vertex="1" parent="lane-backend">
+          <mxGeometry x="40" y="40" width="280" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Middleware versão -->
+        <mxCell id="versioning" value="Middleware de Versionamento&#xa;ApiVersioning (URL: /api/v1, /api/v2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede7f6;strokeColor=#7e57c2;" vertex="1" parent="lane-backend">
+          <mxGeometry x="360" y="40" width="280" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Controllers -->
+        <mxCell id="controllers" value="Controllers&#xa;Users / CareerPaths / Missions / Progress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#8bc34a;" vertex="1" parent="lane-backend">
+          <mxGeometry x="40" y="150" width="280" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Regras simples / validações -->
+        <mxCell id="rules" value="Validações e Regras de Negócio&#xa;• Dados obrigatórios&#xa;• Consistência de IDs&#xa;• Tratamento de erros básicos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffb300;" vertex="1" parent="lane-backend">
+          <mxGeometry x="360" y="150" width="280" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- EF Core Context -->
+        <mxCell id="context" value="OrbitaContext (EF Core)&#xa;DbSets: Users, CareerPaths, Missions, UserMissionProgress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#e57373;" vertex="1" parent="lane-backend">
+          <mxGeometry x="40" y="280" width="320" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Entidades -->
+        <mxCell id="entities" value="Entidades de Domínio&#xa;• User&#xa;• CareerPath&#xa;• Mission&#xa;• UserMissionProgress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;" vertex="1" parent="lane-backend">
+          <mxGeometry x="400" y="280" width="260" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Banco de Dados -->
+        <mxCell id="db" value="SQL Server&#xa;Banco: OrbitaCareerDb" style="shape=database;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9575cd;" vertex="1" parent="lane-backend">
+          <mxGeometry x="700" y="230" width="180" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- Resposta -->
+        <mxCell id="response" value="Resposta HTTP&#xa;Status Code + JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#66bb6a;" vertex="1" parent="lane-backend">
+          <mxGeometry x="360" y="390" width="280" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Setas principais -->
+        <mxCell id="edge1" style="endArrow=block;endFill=1;" edge="1" parent="1" source="client" target="pipeline">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge2" style="endArrow=block;endFill=1;" edge="1" parent="lane-backend" source="pipeline" target="versioning">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge3" style="endArrow=block;endFill=1;" edge="1" parent="lane-backend" source="versioning" target="controllers">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge4" style="endArrow=block;endFill=1;" edge="1" parent="lane-backend" source="controllers" target="rules">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge5" style="endArrow=block;endFill=1;" edge="1" parent="lane-backend" source="rules" target="context">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge6" style="endArrow=block;endFill=1;" edge="1" parent="lane-backend" source="context" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Volta da resposta -->
+        <mxCell id="edge7" style="endArrow=block;endFill=1;dashed=1;" edge="1" parent="lane-backend" source="db" target="response">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge8" style="endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="response" target="client">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Postman seta pro cliente -->
+        <mxCell id="edge9" style="endArrow=block;endFill=1;dashed=1;strokeColor=#ff9800;" edge="1" parent="1" source="postman" target="client">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
