@@ -1,436 +1,268 @@
-ORBITA Career API – Global Solution 2º Semestre (Software Development C#)
+ORBITA Career API Global Solution 2º Semestre -- Software Development C#
 
-\=========================================================================
+API RESTful em ASP.NET Core que faz parte do projeto ORBITA --
+Laboratório de Carreiras do Futuro, desenvolvido para o Global Solution
+-- O Futuro do Trabalho (FIAP).
 
-API RESTful em ASP.NET Core que faz parte do projeto ORBITA – Laboratório de Carreiras do Futuro, desenvolvido para o Global Solution – O Futuro do Trabalho.
+A ORBITA Career API permite cadastrar rotas de carreira do futuro,
+missões gamificadas e o progresso dos usuários, simulando a jornada de
+desenvolvimento de competências em um cenário de trabalho remoto,
+híbrido e intensivo em tecnologia e IA.
 
-A ORBITA Career API permite cadastrar rotas de carreira do futuro, missões gamificadas e o progresso dos usuários, simulando a jornada de preparação para profissões emergentes em um mundo de trabalho remoto, híbrido, conectado e impactado por IA.
-
-\------------------------------------------------------------------------
-
+====================================================================
 INTEGRANTES
+====================================================================
 
-\------------------------------------------------------------------------
+\- Kaue Pastori Teixeira -- RM: 98501- Felipe Bressane
+-- RM: 97688
 
-- Kaue Pastori Teixeira – RA XXXXXXXX
-- Felipe Bressane – RA XXXXXXXX
+Curso: Engenharia de Software -- FIAP Semestre: 2º semestre -- 2025
 
-\------------------------------------------------------------------------
+====================================================================
+PROBLEMA E PROPÓSITO DA SOLUÇÃO
+====================================================================
 
-CONTEXTO E PROPÓSITO DA SOLUÇÃO
+Pergunta norteadora: \"Como preparar pessoas para carreiras que ainda
+nem existem, em um mercado de trabalho remoto, automatizado e guiado por
+IA?\"
 
-\------------------------------------------------------------------------
+A transformação digital está criando novas profissões e redefinindo
+funções tradicionais. Empresas e pessoas enfrentam desafios como:
 
-“Como preparar pessoas para carreiras que ainda nem existem?”
+\- Profissões e skills mudando em alta velocidade; - Formação
+tradicional que não acompanha essas mudanças; - Times remotos e híbridos
+exigindo novas competências; - Falta de um rastro estruturado do
+desenvolvimento das pessoas.
 
-A ORBITA nasce como um laboratório de carreiras do futuro. A ideia é fornecer uma base tecnológica para que empresas, universidades e hubs de inovação criem:
+Objetivo da ORBITA Career API:
 
-- Rotas de carreira focadas em profissões emergentes (IA, dados, ESG, segurança, automação);
-- Missões gamificadas, que simulam desafios reais do trabalho;
-- Acompanhamento de progresso dos profissionais ao longo do tempo.
+\- Definir rotas de carreira do futuro (ex.: Arquiteto de IA Ética,
+Especialista em Segurança de IA); - Cadastrar missões gamificadas que
+simulam desafios reais dessas carreiras; - Registrar e acompanhar o
+progresso dos usuários nessas missões.
 
-A solução responde diretamente ao desafio do Futuro do Trabalho:
+No futuro, essa API pode ser consumida por: - Portais web / apps
+mobile; - Plataformas de educação corporativa; - Assistentes de IA para
+orientação de carreira.
 
-- Profissões mudando rápido;
-- Necessidade de aprendizado contínuo;
-- Ambientes remotos e híbridos;
-- Uso intensivo de IA e dados para tomar decisão.
+====================================================================
+CONEXÃO COM FUTURO DO TRABALHO E ODS
+====================================================================
 
-Conexão com ODS:
+A solução dialoga com:
 
-- ODS 4 – Educação de Qualidade
-- ODS 8 – Trabalho Decente e Crescimento Econômico
-- ODS 9 – Indústria, Inovação e Infraestrutura
-- ODS 10 – Redução das Desigualdades
+Futuro do Trabalho - Carreiras emergentes em IA, dados, automação, ESG,
+segurança; - Trabalho remoto/híbrido com aprendizado contínuo; - Uso de
+dados e IA para suportar decisões de RH e educação.
 
-\------------------------------------------------------------------------
+ODS impactados: - ODS 4 -- Educação de Qualidade; - ODS 8 -- Trabalho
+Decente e Crescimento Econômico; - ODS 9 -- Indústria, Inovação e
+Infraestrutura; - ODS 10 -- Redução das Desigualdades.
 
-TECNOLOGIAS UTILIZADAS
+====================================================================
+VISÃO GERAL DA ARQUITETURA
+====================================================================
 
-\------------------------------------------------------------------------
+Tecnologias principais: - ASP.NET Core Web API (.NET 8); - C#; - Entity
+Framework Core + SQL Server (LocalDB); - Swagger / OpenAPI; - API
+Versioning (Microsoft.AspNetCore.Mvc.Versioning); - Postman (testes de
+integração).
 
-Back-end
+Camadas:
 
-- .NET 8 / ASP.NET Core Web API
-- C#
-- Entity Framework Core
-- SQL Server (LocalDB)
+Models (Domínio) - Representam o coração do negócio:  - User  -
+CareerPath  - Mission  - UserMissionProgress
 
-Documentação e Testes
+Data -- OrbitaContext (EF Core) - Faz o mapeamento objeto--relacional; -
+Define relacionamentos e configurações de banco.
 
-- Swagger / OpenAPI
-- Postman (collection de testes automatizados)
-- Draw.io (diagrama de fluxo da aplicação)
+Controllers - Interface HTTP da aplicação; - Recebem requisições, chamam
+o contexto e retornam respostas JSON com status codes adequados.
 
-Versionamento de API
+Banco de dados: - OrbitaCareerDb (SQL Server), criado e mantido via
+migrations.
 
-- Microsoft.AspNetCore.Mvc.Versioning
-
-\------------------------------------------------------------------------
-
-ARQUITETURA DA SOLUÇÃO
-
-\------------------------------------------------------------------------
-
-A solução é organizada em camadas simples:
-
-Controllers
-
-- Recebem as requisições HTTP, aplicam validações básicas e convertem o resultado em respostas REST (status code + JSON).
-- Principais controllers:
-- UsersController
-- CareerPathsController
-- MissionsController
-- ProgressController
-- CareerPathsV2Controller (exemplo de versão 2)
-
-Data (OrbitaContext)
-
-- Contexto do Entity Framework Core, responsável pelo mapeamento das entidades para o banco SQL Server.
-- Relacionamentos:
-- CareerPath 1:N Mission
-- User 1:N UserMissionProgress
-- Mission 1:N UserMissionProgress
-
-Models (Domínio)
-
-- User
-- CareerPath
-- Mission
-- UserMissionProgress
-
-Banco de dados: OrbitaCareerDb, criado e versionado via migrations do EF Core.
-
-\------------------------------------------------------------------------
-
+====================================================================
 MODELAGEM DE DADOS
+====================================================================
 
-\------------------------------------------------------------------------
+USER - Id (Guid) -- identificador do usuário; - Name (string) -- nome
+completo; - Email (string) -- e-mail; - CurrentRole (string) --
+cargo/ocupação atual; - WeeklyAvailableHours (int) -- horas semanais
+disponíveis para desenvolvimento.
 
-User
+CAREERPATH - Id (Guid); - Name (string) -- nome da carreira; - Area
+(string) -- área (IA, Dados, Segurança, etc.); - Description (string) --
+descrição detalhada; - Level (string) -- nível sugerido (Iniciante,
+Intermediário, Avançado).
 
-- Id (Guid)
-- Name
-- Email
-- CurrentRole (cargo/ocupação atual)
-- WeeklyAvailableHours (horas semanais disponíveis para estudo/desenvolvimento)
+Relação: 1 CareerPath -\> N Mission.
 
-CareerPath
+MISSION - Id (Guid); - CareerPathId (Guid) -- chave estrangeira para
+CareerPath; - Title (string); - Description (string); - Type (string) --
+tipo de missão (Estudo, Projeto, Desafio Prático, etc.); - Difficulty
+(int); - EstimatedMinutes (int); - XpReward (int).
 
-- Id (Guid)
-- Name
-- Area (IA, Dados, DevOps etc.)
-- Description
-- Level (Iniciante, Intermediário, Avançado)
-- Missions (coleção de Missão)
+USERMISSIONPROGRESS - Id (Guid); - UserId (Guid) -- FK para User; -
+MissionId (Guid) -- FK para Mission; - Status (string) -- Pendente,
+EmAndamento, Concluída; - CompletedAt (DateTime?) -- data/hora de
+conclusão.
 
-Mission
+Relações: - 1 User -\> N UserMissionProgress; - 1 Mission -\> N
+UserMissionProgress.
 
-- Id (Guid)
-- CareerPathId (chave estrangeira)
-- Title
-- Description
-- Type (Estudo, Projeto, Desafio Prático, etc.)
-- Difficulty (0–5)
-- EstimatedMinutes
-- XpReward
-
-UserMissionProgress
-
-- Id (Guid)
-- UserId
-- MissionId
-- Status (Pendente, EmAndamento, Concluída)
-- CompletedAt (data/hora quando concluída)
-
-\------------------------------------------------------------------------
-
+====================================================================
 VERSIONAMENTO DA API
-
-\------------------------------------------------------------------------
-
-A API utiliza versionamento por segmento de URL, garantindo evolução sem quebrar integrações existentes.
-
-Versão 1 (v1)
-
-- Endpoints oficiais:
-- /api/v1/Users
-- /api/v1/CareerPaths
-- /api/v1/Missions
-- /api/v1/Progress
-
-Versão 2 (v2)
-
-- Endpoint demonstrativo:
-- /api/v2/CareerPaths
-- Retorna uma mensagem simples mostrando que a versão 2 está configurada.
-
-Configuração principal de versionamento (exemplo de código):
-
-builder.Services.AddApiVersioning(options =>
-
-{
-
-options.DefaultApiVersion = new ApiVersion(1, 0);
-
-options.AssumeDefaultVersionWhenUnspecified = true;
-
-options.ReportApiVersions = true;
-
-options.ApiVersionReader = new UrlSegmentApiVersionReader();
-
-});
-
-Rotas dos controllers (exemplo):
-
-[ApiController]
-
-[ApiVersion("1.0")]
-
-[Route("api/v{version:apiVersion}/[controller]")]
-
-public class CareerPathsController : ControllerBase
-
-{
-
-// ...
-
-}
-
-\------------------------------------------------------------------------
-
-ENDPOINTS PRINCIPAIS (V1)
-
-\------------------------------------------------------------------------
-
-USERS
-
-- GET  /api/v1/Users
-
-Lista todos os usuários.
-
-- GET  /api/v1/Users/{id}
-
-Retorna um usuário específico.
-
-- POST /api/v1/Users
-
-Cria um novo usuário.
-
-- PUT  /api/v1/Users/{id}
-
-Atualiza um usuário existente.
-
-- DELETE /api/v1/Users/{id}
-
-Remove um usuário.
-
-CAREERPATHS
-
-- GET  /api/v1/CareerPaths
-
-Lista todas as rotas de carreira.
-
-- GET  /api/v1/CareerPaths/{id}
-
-Detalhes de uma rota específica (inclui missões).
-
-- POST /api/v1/CareerPaths
-
-Cria uma nova rota de carreira.
-
-- PUT  /api/v1/CareerPaths/{id}
-
-Atualiza a rota.
-
-- DELETE /api/v1/CareerPaths/{id}
-
-Remove a rota.
-
-- GET  /api/v1/CareerPaths/{id}/missions
-
-Lista as missões ligadas à rota.
-
-MISSIONS
-
-- GET  /api/v1/Missions
-
-Lista todas as missões (opcionalmente filtradas por careerPathId).
-
-- GET  /api/v1/Missions/{id}
-
-Detalhes de uma missão específica.
-
-- POST /api/v1/Missions
-
-Cria uma nova missão.
-
-- PUT  /api/v1/Missions/{id}
-
-Atualiza uma missão.
-
-- DELETE /api/v1/Missions/{id}
-
-Remove uma missão.
-
-PROGRESS
-
-- GET  /api/v1/Progress?userId={userId}
-
-Lista o progresso de todas as missões de um usuário.
-
-- GET  /api/v1/Progress/{id}
-
-Detalhes de um registro de progresso.
-
-- POST /api/v1/Progress
-
-Registra que um usuário iniciou uma missão.
-
-- PUT  /api/v1/Progress/{id}
-
-Atualiza o status (por exemplo, para Concluída).
-
-- DELETE /api/v1/Progress/{id}
-
-Remove o registro de progresso.
-
-\------------------------------------------------------------------------
-
+====================================================================
+
+A API utiliza versionamento por URL, garantindo evolução sem quebrar
+clientes existentes.
+
+Versões disponíveis:
+
+v1 -- versão principal - /api/v1/Users - /api/v1/CareerPaths -
+/api/v1/Missions - /api/v1/Progress
+
+v2 -- endpoint de exemplo - /api/v2/CareerPaths  - Retorna uma mensagem
+simples com dados da versão 2 da API.
+
+Configuração (resumo):
+
+\- Uso de ApiVersioning com:  - ApiVersion(1,0) como padrão;  -
+UrlSegmentApiVersionReader para ler a versão da URL;  - Rotas no
+formato: api/v{version:apiVersion}/\[controller\].
+
+====================================================================
+ENDPOINTS PRINCIPAIS (V1) -- RESUMO
+====================================================================
+
+USERS - GET /api/v1/Users Lista todos os usuários. - GET
+/api/v1/Users/{id} Retorna um usuário específico. - POST /api/v1/Users
+Cria um novo usuário. - PUT /api/v1/Users/{id} Atualiza os dados de um
+usuário. - DELETE /api/v1/Users/{id} Remove um usuário.
+
+CAREERPATHS - GET /api/v1/CareerPaths Lista todas as rotas de
+carreira. - GET /api/v1/CareerPaths/{id} Detalha uma rota específica. -
+POST /api/v1/CareerPaths Cria uma nova rota de carreira. - PUT
+/api/v1/CareerPaths/{id} Atualiza a rota. - DELETE
+/api/v1/CareerPaths/{id} Remove a rota. - GET
+/api/v1/CareerPaths/{id}/missions Lista missões associadas à rota.
+
+MISSIONS - GET /api/v1/Missions Lista todas as missões (aceita
+careerPathId como filtro). - GET /api/v1/Missions/{id} Detalha uma
+missão específica. - POST /api/v1/Missions Cria uma nova missão. - PUT
+/api/v1/Missions/{id} Atualiza uma missão. - DELETE
+/api/v1/Missions/{id} Remove uma missão.
+
+PROGRESS - GET /api/v1/Progress?userId={userId} Lista o progresso de um
+usuário nas missões. - GET /api/v1/Progress/{id} Detalha um registro de
+progresso. - POST /api/v1/Progress Registra início de missão para um
+usuário. - PUT /api/v1/Progress/{id} Atualiza o status (por exemplo,
+para Concluída). - DELETE /api/v1/Progress/{id} Remove um registro de
+progresso.
+
+====================================================================
 FLUXO DA APLICAÇÃO (DRAW.IO)
+====================================================================
 
-\------------------------------------------------------------------------
+O fluxo principal está documentado em: -
+docs/fluxo-orbita-career-api.drawio
 
-O fluxo principal da aplicação está representado no arquivo:
+Fluxo exemplificado -- conclusão de missão:
 
-- docs/fluxo-orbita-career-api.drawio
+1\. Cliente (Swagger, Postman ou front-end) envia POST /api/v1/Progress
+informando UserId e MissionId; 2. ProgressController recebe a
+requisição, valida dados e chama o OrbitaContext; 3. OrbitaContext
+persiste o registro em UserMissionProgress no banco SQL Server; 4. API
+retorna 201 Created; 5. Ao concluir a missão, o cliente envia PUT
+/api/v1/Progress/{id} com Status = Concluída e CompletedAt; 6. API
+atualiza o registro e retorna 204 No Content; 7. Consultas posteriores a
+GET /api/v1/Progress?userId=\... retornam o histórico de jornada do
+usuário.
 
-Fluxo ilustrado:
-
-1. Cliente (Swagger, Postman ou futura aplicação front-end) envia uma requisição HTTP para a API.
-1. O controller correspondente recebe a requisição (por exemplo, ProgressController).
-1. O controller utiliza o OrbitaContext (EF Core) para consultar ou persistir dados no SQL Server.
-1. O resultado é retornado ao cliente como JSON, com status codes adequados (200, 201, 204, 400, 404 etc.).
-
-Exemplos de fluxos modelados:
-
-- Criação de rota de carreira (POST /api/v1/CareerPaths).
-- Criação de missão ligada a uma rota (POST /api/v1/Missions).
-- Registro e conclusão de progresso (POST e PUT /api/v1/Progress).
-
-\------------------------------------------------------------------------
-
+====================================================================
 DOCUMENTAÇÃO DA API (SWAGGER)
+====================================================================
 
-\------------------------------------------------------------------------
+A documentação é gerada via Swagger e exposta na raiz do projeto.
 
-A documentação da API é gerada automaticamente via Swagger e exposta na raiz da aplicação:
+Após rodar a aplicação:
 
-- https://localhost:7180/  (ou porta configurada)
+\- URL típica: https://localhost:7180/
 
-Através do Swagger é possível:
+Na interface Swagger é possível: - Visualizar todos os endpoints por
+versão; - Ver estrutura dos modelos; - Executar chamadas de teste
+(GET/POST/PUT/DELETE); - Verificar status codes e payloads.
 
-- Visualizar todos os endpoints e modelos.
-- Executar requisições de teste diretamente pela interface.
-- Conferir exemplos de request/response em JSON.
-
-\------------------------------------------------------------------------
-
+====================================================================
 COMO EXECUTAR O PROJETO
+====================================================================
 
-\------------------------------------------------------------------------
+Pré-requisitos: - .NET 8 SDK instalado; - SQL Server / SQL Server
+Express LocalDB; - (Opcional) Postman para testes.
 
-Pré-requisitos:
+Passos para execução:
 
-- .NET 8 SDK
-- SQL Server / SQL Server Express LocalDB
-- (Opcional) Postman
+1\. Clonar o repositório: git clone
+https://github.com/KauePastori/orbita-career-api.git cd
+orbita-career-api
 
-Passos:
+2\. Verificar a connection string em appsettings.json:
 
-1. Clonar o repositório:
-
-git clone <URL\_DO\_REPOSITORIO>
-
-cd Orbita.CareerApi
-
-1. Verificar a connection string em appsettings.json:
-
-"ConnectionStrings": {
-
-"DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=OrbitaCareerDb;Trusted\_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;"
-
+\"ConnectionStrings\": { \"DefaultConnection\":
+\"Server=(localdb)\\\\MSSQLLocalDB;Database=OrbitaCareerDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;\"
 }
 
 (Ajustar se estiver usando outra instância de SQL Server.)
 
-1. Aplicar as migrations do EF Core:
+3\. Aplicar migrations do Entity Framework Core:
 
-Via Package Manager Console (Visual Studio):
+Via Package Manager Console (Visual Studio): Add-Migration InitialCreate
+\# se ainda não existir Update-Database
 
-Add-Migration InitialCreate   # se ainda não existir migration
+ou via CLI: dotnet ef database update
 
-Update-Database
+4\. Executar a API: dotnet run
 
-ou via CLI:
+5\. Acessar o Swagger: Abrir https://localhost:7180/ (ou porta exibida
+no console).
 
-dotnet ef database update
-
-1. Executar a API:
-
-dotnet run
-
-1. Acessar o Swagger:
-
-Abrir o navegador em https://localhost:7180/  (ou porta exibida no console).
-
-\------------------------------------------------------------------------
-
+====================================================================
 TESTES COM POSTMAN
+====================================================================
 
-\------------------------------------------------------------------------
+Existe uma collection de testes automatizados para validar a API:
 
-Uma collection do Postman foi criada para validar o fluxo completo da API:
+\- Arquivo: docs/Orbita_CareerApi.postman_collection.json
 
-- Arquivo: docs/Orbita\_CareerApi.postman\_collection.json
+Fluxo coberto pela collection: 1. Criação de CareerPath; 2. Listagem de
+CareerPaths; 3. Criação de Mission associada; 4. Listagem de Missions
+por CareerPath; 5. Criação de User; 6. Criação de Progress (início de
+missão); 7. Atualização do Progress para Concluída; 8. Listagem do
+Progress do usuário.
 
-Fluxo automatizado da collection:
+====================================================================
+FORMA DE FUNCIONAMENTO -- RESUMO
+====================================================================
 
-1. Criar uma CareerPath.
-1. Listar CareerPaths.
-1. Criar uma Mission para a CareerPath.
-1. Listar Missions por CareerPath.
-1. Criar um User.
-1. Criar um Progress (usuário inicia missão).
-1. Atualizar Progress para "Concluída".
-1. Listar Progress do usuário.
+\- Rotas de carreira representam trajetórias profissionais do futuro; -
+Missões gamificadas simulam desafios reais dessas carreiras; - Usuários
+são cadastrados e conectados às missões; - Progresso de cada missão é
+registrado e atualizado na API; - Empresas e educadores podem, a partir
+dos dados, analisar o desenvolvimento de competências ligadas ao Futuro
+do Trabalho.
 
-\------------------------------------------------------------------------
-
-FORMA DE FUNCIONAMENTO (RESUMO)
-
-\------------------------------------------------------------------------
-
-- Rotas de carreira representam trajetórias profissionais do futuro.
-- Cada rota possui missões gamificadas que simulam desafios reais.
-- Usuários são cadastrados na API e podem avançar nessas missões.
-- A cada missão iniciada ou concluída, é criado/atualizado um registro em UserMissionProgress.
-- A partir desses dados, empresas e educadores podem acompanhar o desenvolvimento de competências voltadas ao Futuro do Trabalho.
-
-\------------------------------------------------------------------------
-
+====================================================================
 VÍDEO DE DEMONSTRAÇÃO
+====================================================================
 
-\------------------------------------------------------------------------
+Link do vídeo (YouTube ou equivalente), máximo 5 minutos:
 
-Link do vídeo (YouTube ou equivalente) demonstrando a solução integrada (máx. 5 minutos):
+LINK DO VÍDEO:
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-- LINK DO VÍDEO: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-Sugestão de roteiro:
-
-1. Apresentação rápida dos integrantes e do contexto do Futuro do Trabalho.
-1. Explicação da ideia da ORBITA e das entidades principais.
-1. Demonstração no Swagger (fluxo completo de criação de rota, missão, usuário e progresso).
-1. Destaque para o versionamento da API (v1 e v2).
-1. Citar o uso do Postman para testes automatizados e o diagrama Draw.io para documentação do fluxo.
+Sugestão de roteiro: - Apresentação dos integrantes e do contexto da
+GS; - Explicação rápida da ideia da ORBITA e das entidades; -
+Demonstração no Swagger do fluxo completo (CareerPath, Mission, User,
+Progress); - Exemplo de chamada à versão 2 (api/v2/CareerPaths); -
+Comentário sobre o uso da collection do Postman e do diagrama Draw.io.
