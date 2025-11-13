@@ -241,7 +241,7 @@ Fluxo típico dentro da plataforma ORBITA:
 
 O **fluxo da aplicação** está implementado em Draw.io e incluído neste repositório em:
 
-> `docs/fluxo-orbita-career-api.drawio`
+> `fluxo-orbita-career-api-profissional`
 
 O diagrama modela o fluxo principal:
 
@@ -251,8 +251,6 @@ O diagrama modela o fluxo principal:
 4. **OrbitaContext (EF Core)** →  
 5. **Banco SQL Server – OrbitaCareerDb** →  
 6. **Resposta HTTP** com status + JSON retornando ao cliente.
-
-Esse arquivo pode ser aberto em **https://app.diagrams.net/** para visualização e edição.
 
 ---
 
