@@ -347,17 +347,5 @@ Importe no Postman:
 
 ## 🎥 Vídeo de Demonstração (máx. 5 minutos)
 
-> **LINK DO VÍDEO:** _a ser incluído pelo grupo_  
-
-**Sugestão de roteiro:**
-
-1. Apresentação rápida dos integrantes e do tema “Futuro do Trabalho”.  
-2. Visão geral da API (domínio + entidades).  
-3. Mostrar o diagrama Draw.io (fluxo de dados).  
-4. Navegar no Swagger:
-   - Criar CareerPath, Mission, User e Progress.
-   - Atualizar Progress para “Concluída”.  
-5. Mostrar endpoint de versão 2 (`/api/v2/CareerPaths`).  
-6. Comentar brevemente sobre a collection Postman.
-
+> **LINK DO VÍDEO:** https://youtu.be/7P6Wy4FySLw 
 ---
